@@ -1,8 +1,6 @@
-
-
 <head>
 
-  <title>Todo List</title>
+    <title>Todo List</title>
 
 </head>
 
@@ -10,34 +8,48 @@
 
 <body>
 
-  <div class="container">
+    <div class="container">
 
-    <header>
+        <header>
 
-      <h1>Todo List</h1>
-
-    </header>
+            <h1>Todo List</h1>
 
 
 
-    <ul>
+            <form class="new-task">
 
-      {{#each tasks}}
+                <input type="text" name="text" placeholder="Type to add new tasks" />
 
-        {{> task}}
+            </form>
 
-      {{/each}}
+        </header>
 
-    </ul>
 
-  </div>
+
+        <ul>
+
+            {{#each tasks}} {{> task}} {{/each}}
+
+        </ul>
+
+    </div>
+
 
 </body>
-
-
-
 <template name="task">
+<!-- Event removal fonctionnality buttons added by template -->
+    <li class="{{#if checked}}checked{{/if}}">
 
-  <li>{{text}}</li>
+        <button class="delete">&times;</button>
+
+
+
+        <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+
+
+
+        <span class="text">{{text}}</span>
+
+    </li>
 
 </template>
