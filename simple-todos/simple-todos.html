@@ -6,21 +6,35 @@
 
 
 
+
+
 <body>
 
     <div class="container">
 
         <header>
 
-            <h1>Todo List</h1>
+            <h1>Todo List ({{incompleteCount}})</h1>
 
 
+
+            <label class="hide-completed">
+
+                <input type="checkbox" checked="{{hideCompleted}}" /> Hide Completed Tasks
+
+            </label>
+
+
+
+            {{> loginButtons}} {{#if currentUser}}
 
             <form class="new-task">
 
                 <input type="text" name="text" placeholder="Type to add new tasks" />
 
             </form>
+
+            {{/if}}
 
         </header>
 
@@ -37,7 +51,7 @@
 
 </body>
 <template name="task">
-<!-- Event removal fonctionnality buttons added by template -->
+    <!-- Event removal fonctionnality buttons added by template -->
     <li class="{{#if checked}}checked{{/if}}">
 
         <button class="delete">&times;</button>
@@ -48,7 +62,7 @@
 
 
 
-        <span class="text">{{text}}</span>
+        <span class="text"><strong>{{username}}</strong> - {{text}}</span>
 
     </li>
 

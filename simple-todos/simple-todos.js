@@ -1,25 +1,58 @@
 // define template content, called in html file by template tag
 if (Meteor.isClient) {
 
+
+
     // This code only runs on the client
 
     Template.body.helpers({
 
-        tasks: [
+        tasks: function() {
 
-            {
-                text: "This is task 1"
-            },
+            if (Session.get("hideCompleted")) {
 
-            {
-                text: "This is task 2"
-            },
+                // If hide completed is checked, filter tasks
 
-            {
-                text: "This is task 3"
+                return Tasks.find({
+                    checked: {
+                        $ne: true
+                    }
+                }, {
+                    sort: {
+                        createdAt: -1
+                    }
+                });
+
+            } else {
+
+                // Otherwise, return all of the tasks
+
+                return Tasks.find({}, {
+                    sort: {
+                        createdAt: -1
+                    }
+                });
+
             }
 
-        ]
+        },
+
+        hideCompleted: function() {
+
+            return Session.get("hideCompleted");
+
+        },
+        incompleteCount: function() {
+
+            return Tasks.find({
+                checked: {
+                    $ne: true
+                }
+            }).count();
+
+        }
+
+
 
     });
 
@@ -68,22 +101,36 @@ if (Meteor.isClient) {
 
 
 
-            // Insert a task into the collection
-
-            Tasks.insert({
-
-                text: text,
-
-                createdAt: new Date() // current time
-
-            });
-            console.log(event);
 
 
-            // Clear form
+      // Insert a task into the collection
+
+      Tasks.insert({
+
+        text: text,
+
+        createdAt: new Date(),            // current time
+
+        owner: Meteor.userId(),           // _id of logged in user
+
+        username: Meteor.user().username  // username of logged in user
+
+      });
+
+
+
+      // Clear form
+
+
 
             event.target.text.value = "";
-            // end of the event
+
+        },
+
+        "change .hide-completed input": function(event) {
+
+            Session.set("hideCompleted", event.target.checked);
+
         }
 
     });
@@ -103,12 +150,22 @@ if (Meteor.isClient) {
             });
 
         },
-// Delete functionnality for checked elements
+        // Delete functionnality for checked elements
         "click .delete": function() {
+
+
 
             Tasks.remove(this._id);
 
         }
+
+    });
+
+
+
+    Accounts.ui.config({
+
+        passwordSignupFields: "USERNAME_ONLY"
 
     });
 
