@@ -34,7 +34,7 @@ if (Meteor.isClient) {
       return Tasks.find({checked: {$ne: true}}).count();
     }
   });
-
+  // add tasks functionnality
   Template.body.events({
     "submit .new-task": function (event) {
       // Prevent default browser form submit
