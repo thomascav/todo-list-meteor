@@ -49,10 +49,15 @@
     </div>
 
 
-</body>
-<template name="task">
-    <!-- Event removal fonctionnality buttons added by template -->
-    <li class="{{#if checked}}checked{{/if}}">
+
+
+    </body>
+
+
+
+    <template name="task">
+
+      <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
 
         <button class="delete">&times;</button>
 
@@ -62,8 +67,30 @@
 
 
 
-        <span class="text"><strong>{{username}}</strong> - {{text}}</span>
 
-    </li>
+
+{{#if isOwner}}
+
+  <button class="toggle-private">
+
+    {{#if private}}
+
+      Private
+
+    {{else}}
+
+      Public
+
+    {{/if}}
+
+  </button>
+
+{{/if}}
+
+
+
+<span class="text"><strong>{{username}}</strong> - {{text}}</span>
+
+</li>
 
 </template>
